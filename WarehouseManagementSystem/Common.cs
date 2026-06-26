@@ -140,9 +140,9 @@ namespace WarehouseManagementSystem
 
     public static class PlaceForStorageDetailsNetworkRequest
     {
-        public static async Task<ClassData<List<CbmData>>> GetPlacesAsync(int id)
+        public static async Task<ClassData<List<CbmData>>> GetPlacesAsync(int id, int batch)
         {
-            return await $"PlaceForStorageDetails/showAllLocation?id={id}".Get<List<CbmData>>();
+            return await $"PlaceForStorageDetails/showAllLocation?id={id}&batch={batch}".Get<List<CbmData>>();
         }
 
         public static async Task<ClassData<T>> GetPlaceImageAsync<T>(this int id)
@@ -192,7 +192,7 @@ namespace WarehouseManagementSystem
 
     public static class ItemNetworkRequest
     {
-        public static async Task<ClassData<T>> ReturnBatchItem<T>(int count,int batch,int itemId)
+        public static async Task<ClassData<T>> ReturnBatchItem<T>(int count, int batch, int itemId)
         {
             return await $"Items/returnBatchItem?count={count}&batch={batch}&id={itemId}".Get<T>();
         }
@@ -258,6 +258,10 @@ namespace WarehouseManagementSystem
 
     public static class WarehouseRecordsNetworkRequest
     {
+        public static async Task<ClassData<List<CbmData>>> GetItemBatches(this int itemId, int recordTypeId)
+        {
+            return await $"WarehouseRecords/itemBatches?itemId={itemId}&recordTypeId={recordTypeId}".Get<List<CbmData>>();
+        }
         public static async Task<ClassData<T>> GetRecordDetail<T>(this int id)
         {
             return await "WarehouseRecords/showRecordDetail".Post<T>(id);

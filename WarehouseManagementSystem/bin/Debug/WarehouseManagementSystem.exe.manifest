@@ -163,14 +163,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WarehouseManagementSystem.exe" size="165328">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WarehouseManagementSystem.exe" size="176080">
       <assemblyIdentity name="WarehouseManagementSystem" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>sV4/+YSlC7Wq1wvfV2rAp5ZMvENpOg0ok1l3HBQEhME=</dsig:DigestValue>
+        <dsig:DigestValue>ekc6dxFWi/eERpIR5u/34nNpdJGLiJM2Pdo5JdpkV6s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

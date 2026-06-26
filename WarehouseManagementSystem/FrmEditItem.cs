@@ -111,7 +111,7 @@ namespace WarehouseManagementSystem
             btnAddFixedAsset.Enabled = false;
             var types = await TypesAndStateNetworkRequest.GetItemTypesAsync();
             types.Data.ToList().Bind(cbmType);
-            var placeForStorages = PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1);
+            var placeForStorages = PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1, -1);
             var users = UsersNetworkRequest.GetOperatorsAsync();
             await Task.WhenAll(placeForStorages, users);
 

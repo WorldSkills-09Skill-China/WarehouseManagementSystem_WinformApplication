@@ -33,16 +33,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.cbmOperator = new WarehouseManagementSystem.Cbm();
+            this.cbmItemType = new WarehouseManagementSystem.Cbm();
             this.cbmItem = new WarehouseManagementSystem.Cbm();
             this.tbSearch = new WarehouseManagementSystem.Tb();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.dgvRecordsData = new WarehouseManagementSystem.Dgv();
             this.cbOnlyLoadUnfinishedTask = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.dtpFirstTime = new System.Windows.Forms.DateTimePicker();
             this.dtpLastTime = new System.Windows.Forms.DateTimePicker();
-            this.dgvRecordsData = new WarehouseManagementSystem.Dgv();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecordsData)).BeginInit();
@@ -61,12 +61,12 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 14);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 12);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 20);
+            this.label2.Size = new System.Drawing.Size(83, 21);
             this.label2.TabIndex = 1;
-            this.label2.Text = "操作人员：";
+            this.label2.Text = "物品类型：";
             // 
             // label3
             // 
@@ -102,14 +102,15 @@
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // cbmOperator
+            // cbmItemType
             // 
-            this.cbmOperator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmOperator.FormattingEnabled = true;
-            this.cbmOperator.Location = new System.Drawing.Point(86, 13);
-            this.cbmOperator.Name = "cbmOperator";
-            this.cbmOperator.Size = new System.Drawing.Size(88, 21);
-            this.cbmOperator.TabIndex = 8;
+            this.cbmItemType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmItemType.FormattingEnabled = true;
+            this.cbmItemType.Location = new System.Drawing.Point(86, 13);
+            this.cbmItemType.Name = "cbmItemType";
+            this.cbmItemType.Size = new System.Drawing.Size(88, 21);
+            this.cbmItemType.TabIndex = 8;
+            this.cbmItemType.SelectedIndexChanged += new System.EventHandler(this.cbmItemType_SelectedIndexChanged);
             // 
             // cbmItem
             // 
@@ -117,7 +118,7 @@
             this.cbmItem.FormattingEnabled = true;
             this.cbmItem.Location = new System.Drawing.Point(235, 14);
             this.cbmItem.Name = "cbmItem";
-            this.cbmItem.Size = new System.Drawing.Size(141, 21);
+            this.cbmItem.Size = new System.Drawing.Size(92, 21);
             this.cbmItem.TabIndex = 9;
             // 
             // tbSearch
@@ -135,7 +136,7 @@
             this.panel1.Controls.Add(this.tbSearch);
             this.panel1.Controls.Add(this.cbmItem);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.cbmOperator);
+            this.panel1.Controls.Add(this.cbmItemType);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Location = new System.Drawing.Point(19, 62);
@@ -155,6 +156,20 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(627, 308);
             this.panel2.TabIndex = 20;
+            // 
+            // dgvRecordsData
+            // 
+            this.dgvRecordsData.AllowUserToAddRows = false;
+            this.dgvRecordsData.AllowUserToDeleteRows = false;
+            this.dgvRecordsData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvRecordsData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRecordsData.Location = new System.Drawing.Point(4, 38);
+            this.dgvRecordsData.Name = "dgvRecordsData";
+            this.dgvRecordsData.RowHeadersVisible = false;
+            this.dgvRecordsData.RowTemplate.Height = 25;
+            this.dgvRecordsData.Size = new System.Drawing.Size(618, 267);
+            this.dgvRecordsData.TabIndex = 22;
+            this.dgvRecordsData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRecordsData_CellClick_1);
             // 
             // cbOnlyLoadUnfinishedTask
             // 
@@ -197,20 +212,6 @@
             this.dtpLastTime.TabIndex = 18;
             this.dtpLastTime.ValueChanged += new System.EventHandler(this.dtpLastTime_ValueChanged);
             // 
-            // dgvRecordsData
-            // 
-            this.dgvRecordsData.AllowUserToAddRows = false;
-            this.dgvRecordsData.AllowUserToDeleteRows = false;
-            this.dgvRecordsData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvRecordsData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRecordsData.Location = new System.Drawing.Point(4, 38);
-            this.dgvRecordsData.Name = "dgvRecordsData";
-            this.dgvRecordsData.RowHeadersVisible = false;
-            this.dgvRecordsData.RowTemplate.Height = 25;
-            this.dgvRecordsData.Size = new System.Drawing.Size(618, 267);
-            this.dgvRecordsData.TabIndex = 22;
-            this.dgvRecordsData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRecordsData_CellClick_1);
-            // 
             // FrmWarehouseRecords
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -240,7 +241,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnSearch;
-        private Cbm cbmOperator;
+        private Cbm cbmItemType;
         private Cbm cbmItem;
         private Tb tbSearch;
         private System.Windows.Forms.Panel panel1;

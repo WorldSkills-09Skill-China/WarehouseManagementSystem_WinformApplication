@@ -114,6 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
+    <Compile Include="EdtiItemSpecification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EdtiItemSpecification.Designer.cs">
+      <DependentUpon>EdtiItemSpecification.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmAnomalyItemDetail.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +206,9 @@
     <Compile Include="UCAnomalyRecord.Designer.cs">
       <DependentUpon>UCAnomalyRecord.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="EdtiItemSpecification.resx">
+      <DependentUpon>EdtiItemSpecification.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmAnomalyItemDetail.resx">
       <DependentUpon>FrmAnomalyItemDetail.cs</DependentUpon>
     </EmbeddedResource>

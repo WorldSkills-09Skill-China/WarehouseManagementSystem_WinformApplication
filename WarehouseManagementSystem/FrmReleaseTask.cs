@@ -32,22 +32,15 @@ namespace WarehouseManagementSystem
         private async void FrmReleaseTask_Load(object sender, EventArgs e)
         {
             var operatorsData = UsersNetworkRequest.GetOperatorsAsync();
-
             var items = ItemNetworkRequest.GetItemsAsync();
-
             var types = TypesAndStateNetworkRequest.GetRecordTypesAsync();
 
-            var places = PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1);
-
-            await Task.WhenAll(operatorsData, items, types, places);
+            await Task.WhenAll(operatorsData, items, types);
 
             operatorsData.Result.Data.Insert(0, new CbmData { Id = -1, Name = null });
             operatorsData.Result.Data.Bind(cbmOperator);
             items.Result.Data.Bind(cbmItem);
             types.Result.Data.Bind(cbmType);
-            places.Result.Data.Insert(0, new CbmData { Id = -1, Name = "多个存放位置" });
-            places.Result.Data.Bind(cbmPlaceForStorage);
-
             if (_id != 0)
             {
                 cbmItem.SelectedValue = _id;
@@ -66,6 +59,8 @@ namespace WarehouseManagementSystem
 
             var info = new TaskData
             {
+                Batch = cbmBatch.V,
+                ItemName = cbmItem.Text.Trim(),
                 RecordTypeId = cbmType.V,
                 ItemId = cbmItem.V,
                 ItemCount = nudItemCount.Value._2Int(),
@@ -83,9 +78,21 @@ namespace WarehouseManagementSystem
             {
                 this.GoFrm(new FrmSelectMorePlaceForStorages(true, info, _isFixedAsset));
             }
-            else if (cbmPlaceForStorage.V == -1 && cbmType.V == 2 )
+            else if (cbmPlaceForStorage.V == -1 && cbmType.V == 2)
             {
                 this.GoFrm(new FrmSelectMorePlaceForStorages(false, info, _isFixedAsset));
+            }
+            else
+            {
+                var data = await info.AddTask<string>();
+                if (data.Success)
+                {
+                    "发布成功".Msg();
+                }
+                else
+                {
+                    data.Message.Msg();
+                }
             }
         }
 
@@ -93,10 +100,25 @@ namespace WarehouseManagementSystem
         {
             cbIsUserExistingItems.Checked = false;
             cbIsUserExistingItems.Enabled = false;
-            var info = await cbmItem.V.GetItemImageAsync<ItemInfoData>();
-            string url = $@"http://localhost:5070//{info.Data.ImageName}";
+            var info = cbmItem.V.GetItemImageAsync<ItemInfoData>();
+            var batches = cbmItem.V.GetItemBatches(cbmType.V);
+            await Task.WhenAll(info, batches);
+            if (cbIsUserExistingItems.Checked || cbmType.V == 1)
+            {
+                batches.Result.Data.Insert(0, new CbmData
+                {
+                    Id = -1,
+                    Name = "",
+                });
+                batches.Result.Data.Bind(cbmBatch);
+            }
+            else
+            {
+                cbmBatch.DataSource = null;
+            }
+            string url = $@"http://localhost:5070//{info.Result.Data.ImageName}";
 
-            if (info.Data.ImageName != null)
+            if (info.Result.Data.ImageName != null)
             {
                 using (HttpClient client = new HttpClient())
                 {
@@ -117,7 +139,7 @@ namespace WarehouseManagementSystem
                 }
             }
 
-            _isFixedAsset = info.Data.IsFixedAsset;
+            _isFixedAsset = info.Result.Data.IsFixedAsset;
             if (cbmType.V == 2 && _isFixedAsset)
             {
                 cbIsUserExistingItems.Enabled = true;
@@ -154,21 +176,80 @@ namespace WarehouseManagementSystem
         {
             cbIsUserExistingItems.Checked = false;
             cbIsUserExistingItems.Enabled = false;
-            if (cbmType.V == 2 && _isFixedAsset)
+
+            if (cbIsUserExistingItems.Checked)
             {
-                cbIsUserExistingItems.Enabled = true;
+                var batches = await cbmItem.V.GetItemBatches(cbmType.V);
+                batches.Data.Insert(0, new CbmData
+                {
+                    Id = -1,
+                    Name = "",
+                });
+                batches.Data.Bind(cbmBatch);
             }
-            if (cbmType.V == 1 && _isFixedAsset)
+            else
             {
-                var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1);
-                places.Data.Add(new CbmData { Id = -1, Name = "" });
+                cbmBatch.DataSource = null;
+            }
+
+            if (cbmType.V == 2)
+            {
+                var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1, -1);
+                places.Data.Insert(0, new CbmData { Id = -1, Name = "多个存放位置" });
+                places.Data.Bind(cbmPlaceForStorage);
+
+                if (_isFixedAsset)
+                {
+                    cbIsUserExistingItems.Enabled = true;
+                }
+            }
+            if (cbmType.V == 1)
+            {
+                cbmPlaceForStorage.DataSource = null;
+
+                var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(cbmItem.V, cbmBatch.V);
                 places.Data.Bind(cbmPlaceForStorage);
             }
         }
 
-        private void cbmBatch_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cbmBatch_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cbmType.V == 2)
+            {
+                var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1, -1);
+                places.Data.Insert(0, new CbmData { Id = -1, Name = "多个存放位置" });
+                places.Data.Bind(cbmPlaceForStorage);
+            }
+            if (cbmType.V == 1)
+            {
+                cbmPlaceForStorage.DataSource = null;
+                var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(cbmItem.V, cbmBatch.V);
+                places.Data.Bind(cbmPlaceForStorage);
+            }
+        }
 
+        private async void cbIsUserExistingItems_CheckedChanged(object sender, EventArgs e)
+        {
+            var batches = await cbmItem.V.GetItemBatches(cbmType.V);
+            if (batches.Data.Count <= 0)
+            {
+                "仓库中没有该物品".Msg();
+                cbIsUserExistingItems.Checked = false;
+                return;
+            }
+            if (cbIsUserExistingItems.Checked || cbmType.V == 1)
+            {
+                batches.Data.Insert(0, new CbmData
+                {
+                    Id = -1,
+                    Name = "",
+                });
+                batches.Data.Bind(cbmBatch);
+            }
+            else
+            {
+                cbmBatch.DataSource = null;
+            }
         }
     }
 }

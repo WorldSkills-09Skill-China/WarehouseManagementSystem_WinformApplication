@@ -39,20 +39,19 @@
             this.label7 = new System.Windows.Forms.Label();
             this.btnReleaseTask = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.cbmBatch = new WarehouseManagementSystem.Cbm();
             this.label8 = new System.Windows.Forms.Label();
             this.cbIsUserExistingItems = new System.Windows.Forms.CheckBox();
-            this.tbNote = new WarehouseManagementSystem.Tb();
             this.label9 = new System.Windows.Forms.Label();
-            this.cbmType = new WarehouseManagementSystem.Cbm();
-            this.cbmPlaceForStorage = new WarehouseManagementSystem.Cbm();
-            this.cbmOperator = new WarehouseManagementSystem.Cbm();
-            this.cbmItem = new WarehouseManagementSystem.Cbm();
-            this.cbAffirm = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pbItem = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pbPlaceForStorage = new System.Windows.Forms.PictureBox();
+            this.cbmBatch = new WarehouseManagementSystem.Cbm();
+            this.tbNote = new WarehouseManagementSystem.Tb();
+            this.cbmType = new WarehouseManagementSystem.Cbm();
+            this.cbmPlaceForStorage = new WarehouseManagementSystem.Cbm();
+            this.cbmOperator = new WarehouseManagementSystem.Cbm();
+            this.cbmItem = new WarehouseManagementSystem.Cbm();
             ((System.ComponentModel.ISupportInitialize)(this.nudItemCount)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -171,7 +170,6 @@
             this.panel1.Controls.Add(this.cbmPlaceForStorage);
             this.panel1.Controls.Add(this.cbmOperator);
             this.panel1.Controls.Add(this.cbmItem);
-            this.panel1.Controls.Add(this.cbAffirm);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnReleaseTask);
             this.panel1.Controls.Add(this.label1);
@@ -187,16 +185,6 @@
             this.panel1.Size = new System.Drawing.Size(395, 429);
             this.panel1.TabIndex = 26;
             // 
-            // cbmBatch
-            // 
-            this.cbmBatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmBatch.FormattingEnabled = true;
-            this.cbmBatch.Location = new System.Drawing.Point(138, 155);
-            this.cbmBatch.Name = "cbmBatch";
-            this.cbmBatch.Size = new System.Drawing.Size(198, 21);
-            this.cbmBatch.TabIndex = 36;
-            this.cbmBatch.SelectedIndexChanged += new System.EventHandler(this.cbmBatch_SelectedIndexChanged);
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -210,19 +198,13 @@
             // cbIsUserExistingItems
             // 
             this.cbIsUserExistingItems.AutoSize = true;
-            this.cbIsUserExistingItems.Location = new System.Drawing.Point(56, 332);
+            this.cbIsUserExistingItems.Location = new System.Drawing.Point(226, 332);
             this.cbIsUserExistingItems.Name = "cbIsUserExistingItems";
             this.cbIsUserExistingItems.Size = new System.Drawing.Size(110, 17);
             this.cbIsUserExistingItems.TabIndex = 34;
             this.cbIsUserExistingItems.Text = "入库以有的物品";
             this.cbIsUserExistingItems.UseVisualStyleBackColor = true;
-            // 
-            // tbNote
-            // 
-            this.tbNote.Location = new System.Drawing.Point(138, 294);
-            this.tbNote.Name = "tbNote";
-            this.tbNote.Size = new System.Drawing.Size(198, 20);
-            this.tbNote.TabIndex = 33;
+            this.cbIsUserExistingItems.CheckedChanged += new System.EventHandler(this.cbIsUserExistingItems_CheckedChanged);
             // 
             // label9
             // 
@@ -233,55 +215,6 @@
             this.label9.Size = new System.Drawing.Size(51, 21);
             this.label9.TabIndex = 32;
             this.label9.Text = "备注：";
-            // 
-            // cbmType
-            // 
-            this.cbmType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmType.FormattingEnabled = true;
-            this.cbmType.Location = new System.Drawing.Point(138, 225);
-            this.cbmType.Name = "cbmType";
-            this.cbmType.Size = new System.Drawing.Size(198, 21);
-            this.cbmType.TabIndex = 30;
-            this.cbmType.SelectedIndexChanged += new System.EventHandler(this.cbmType_SelectedIndexChanged);
-            // 
-            // cbmPlaceForStorage
-            // 
-            this.cbmPlaceForStorage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmPlaceForStorage.FormattingEnabled = true;
-            this.cbmPlaceForStorage.Location = new System.Drawing.Point(138, 190);
-            this.cbmPlaceForStorage.Name = "cbmPlaceForStorage";
-            this.cbmPlaceForStorage.Size = new System.Drawing.Size(198, 21);
-            this.cbmPlaceForStorage.TabIndex = 29;
-            this.cbmPlaceForStorage.SelectedIndexChanged += new System.EventHandler(this.cbmPlaceForStorage_SelectedIndexChanged);
-            // 
-            // cbmOperator
-            // 
-            this.cbmOperator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmOperator.FormattingEnabled = true;
-            this.cbmOperator.Location = new System.Drawing.Point(138, 120);
-            this.cbmOperator.Name = "cbmOperator";
-            this.cbmOperator.Size = new System.Drawing.Size(198, 21);
-            this.cbmOperator.TabIndex = 28;
-            // 
-            // cbmItem
-            // 
-            this.cbmItem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmItem.FormattingEnabled = true;
-            this.cbmItem.Location = new System.Drawing.Point(138, 51);
-            this.cbmItem.Name = "cbmItem";
-            this.cbmItem.Size = new System.Drawing.Size(198, 21);
-            this.cbmItem.TabIndex = 27;
-            this.cbmItem.SelectedIndexChanged += new System.EventHandler(this.cbmItem_SelectedIndexChanged);
-            // 
-            // cbAffirm
-            // 
-            this.cbAffirm.AutoSize = true;
-            this.cbAffirm.Location = new System.Drawing.Point(204, 332);
-            this.cbAffirm.Name = "cbAffirm";
-            this.cbAffirm.Size = new System.Drawing.Size(134, 17);
-            this.cbAffirm.TabIndex = 26;
-            this.cbAffirm.Text = "已详细确认信息无误";
-            this.cbAffirm.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -322,6 +255,62 @@
             this.pbPlaceForStorage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbPlaceForStorage.TabIndex = 0;
             this.pbPlaceForStorage.TabStop = false;
+            // 
+            // cbmBatch
+            // 
+            this.cbmBatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmBatch.FormattingEnabled = true;
+            this.cbmBatch.Location = new System.Drawing.Point(138, 155);
+            this.cbmBatch.Name = "cbmBatch";
+            this.cbmBatch.Size = new System.Drawing.Size(198, 21);
+            this.cbmBatch.TabIndex = 36;
+            this.cbmBatch.SelectedIndexChanged += new System.EventHandler(this.cbmBatch_SelectedIndexChanged);
+            // 
+            // tbNote
+            // 
+            this.tbNote.Location = new System.Drawing.Point(138, 294);
+            this.tbNote.Name = "tbNote";
+            this.tbNote.Size = new System.Drawing.Size(198, 20);
+            this.tbNote.TabIndex = 33;
+            // 
+            // cbmType
+            // 
+            this.cbmType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmType.FormattingEnabled = true;
+            this.cbmType.Location = new System.Drawing.Point(138, 225);
+            this.cbmType.Name = "cbmType";
+            this.cbmType.Size = new System.Drawing.Size(198, 21);
+            this.cbmType.TabIndex = 30;
+            this.cbmType.SelectedIndexChanged += new System.EventHandler(this.cbmType_SelectedIndexChanged);
+            // 
+            // cbmPlaceForStorage
+            // 
+            this.cbmPlaceForStorage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmPlaceForStorage.FormattingEnabled = true;
+            this.cbmPlaceForStorage.Location = new System.Drawing.Point(138, 190);
+            this.cbmPlaceForStorage.Name = "cbmPlaceForStorage";
+            this.cbmPlaceForStorage.Size = new System.Drawing.Size(198, 21);
+            this.cbmPlaceForStorage.TabIndex = 29;
+            this.cbmPlaceForStorage.SelectedIndexChanged += new System.EventHandler(this.cbmPlaceForStorage_SelectedIndexChanged);
+            // 
+            // cbmOperator
+            // 
+            this.cbmOperator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmOperator.FormattingEnabled = true;
+            this.cbmOperator.Location = new System.Drawing.Point(138, 120);
+            this.cbmOperator.Name = "cbmOperator";
+            this.cbmOperator.Size = new System.Drawing.Size(198, 21);
+            this.cbmOperator.TabIndex = 28;
+            // 
+            // cbmItem
+            // 
+            this.cbmItem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmItem.FormattingEnabled = true;
+            this.cbmItem.Location = new System.Drawing.Point(138, 51);
+            this.cbmItem.Name = "cbmItem";
+            this.cbmItem.Size = new System.Drawing.Size(198, 21);
+            this.cbmItem.TabIndex = 27;
+            this.cbmItem.SelectedIndexChanged += new System.EventHandler(this.cbmItem_SelectedIndexChanged);
             // 
             // FrmReleaseTask
             // 
@@ -364,7 +353,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.PictureBox pbItem;
         private System.Windows.Forms.PictureBox pbPlaceForStorage;
-        private System.Windows.Forms.CheckBox cbAffirm;
         private Cbm cbmItem;
         private Cbm cbmType;
         private Cbm cbmPlaceForStorage;

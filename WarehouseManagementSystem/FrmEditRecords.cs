@@ -139,19 +139,16 @@ namespace WarehouseManagementSystem
 
             var types = TypesAndStateNetworkRequest.GetRecordTypesAsync();
 
-            var places = PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1);
-
             var states = TypesAndStateNetworkRequest.GetRecordStatesAsync();
 
             var record = _id.GetRecordDetail<TaskData>();
 
-            await Task.WhenAll(operatorsData, items, types, places, states, record);
+            await Task.WhenAll(operatorsData, items, types, states, record);
 
             operatorsData.Result.Data.Insert(0, new CbmData { Id = -1, Name = null });
             operatorsData.Result.Data.Bind(cbmOperator);
             items.Result.Data.Bind(cbmItem);
             types.Result.Data.Bind(cbmType);
-            places.Result.Data.Bind(cbmPlaceForStorage);
             states.Result.Data.Bind(cbmState);
             var info = record.Result.Data;
 

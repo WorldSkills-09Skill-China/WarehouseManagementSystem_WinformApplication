@@ -22,7 +22,7 @@ namespace WarehouseManagementSystem
         {
             var allRecords = await WarehouseRecordsNetworkRequest.GetRecordsAsync<List<Record>>();
             allRecords.Data.Where(a =>
-            (a.UserId == cbmOperator.V || cbmOperator.V == -1) &&
+            (a.UserId == cbmItemType.V || cbmItemType.V == -1) &&
                 (a.ItemId == cbmItem.V || cbmItem.V == -1) &&
                 (string.IsNullOrEmpty(tbSearch.V) || a.ItemName.Contains(tbSearch.V)) &&
                 (!cbOnlyLoadUnfinishedTask.Checked || a.RecordState == "未完成") &&
@@ -70,7 +70,7 @@ namespace WarehouseManagementSystem
                     row.Cells["Cancel"].Value = "Cancel";
                     row.Cells["Approval"].Value = "Approval";
                 }
-                if (row.Cells["RecordState"].Value.ToString() != "未完成")
+                if (row.Cells["RecordState"].Value.ToString() == "未完成")
                 {
                     row.Cells["Edit"].Value = "Edit";
                 }
@@ -111,7 +111,7 @@ namespace WarehouseManagementSystem
         {
             var operatorsData = await UsersNetworkRequest.GetOperatorsAsync();
             operatorsData.Data.Insert(0, new CbmData { Name = "All", Id = -1 });
-            operatorsData.Data.Bind(cbmOperator);
+            operatorsData.Data.Bind(cbmItemType);
 
             var items = await ItemNetworkRequest.GetItemsAsync();
             items.Data.Insert(0, new CbmData { Name = "All", Id = -1 });
@@ -177,6 +177,11 @@ namespace WarehouseManagementSystem
                     "取消失败".Msg();
                 }
             }
+        }
+
+        private void cbmItemType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

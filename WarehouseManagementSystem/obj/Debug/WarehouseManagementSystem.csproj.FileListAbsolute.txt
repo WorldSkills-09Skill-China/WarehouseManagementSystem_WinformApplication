@@ -31,7 +31,6 @@ D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\De
 D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\Debug\WarehouseManagementSystem.FrmLogin.resources
 D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\Debug\WarehouseManagementSystem.FrmMain.resources
 D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\Debug\WarehouseManagementSystem.FrmReleaseTask.resources
-D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\Debug\WarehouseManagementSystem.FrmTaskDetails.resources
 D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\Debug\WarehouseManagementSystem.FrmWarehouseRecords.resources
 D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\Debug\WarehouseManagementSystem.Properties.Resources.resources
 D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\Debug\WarehouseManagementSystem.UCAnomalyRecord.resources
