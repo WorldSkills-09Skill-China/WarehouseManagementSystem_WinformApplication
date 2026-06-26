@@ -53,10 +53,6 @@ namespace WarehouseManagementSystem
                         Detail = specification,
                     };
                 }).Bind(dgvItemsData);
-                var placeForStorage = new DataGridViewColumn
-                {
-                    Name = "PlaceForStorage"
-                };
             }
             else if (_isFixedAsset)
             {
@@ -66,7 +62,6 @@ namespace WarehouseManagementSystem
                     info.Add(new ReturnBatchItem
                     {
                         ItemName = _taskData.ItemName,
-                        Batch = _taskData.Batch,
                         Code = i.ToString(),
                     });
                 }
@@ -74,23 +69,23 @@ namespace WarehouseManagementSystem
                 {
                     a.ItemName,
                     a.Code,
-                    a.Batch
                 }
                 ).Bind(dgvItemsData);
-                var placeForStorage = new DataGridViewColumn
-                {
-                    Name = "PlaceForStorage"
-                };
             }
             else
             {
-                var info=new List<ReturnBatchItem>();
-                info.Add(new ReturnBatchItem 
+                var info = new List<ReturnBatchItem>();
+                info.Add(new ReturnBatchItem
                 {
-
+                    ItemName = _taskData.ItemName,
+                    Batch = _taskData.Batch,
                 });
-
+                info.Bind(dgvItemsData);
             }
+            var placeForStorage = new DataGridViewColumn
+            {
+                Name = "PlaceForStorage"
+            };
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -116,11 +111,11 @@ namespace WarehouseManagementSystem
         public int Batch { get; set; }
         public string Detail { get; set; }
     }
-    
-    public class ItemRecord 
+
+    public class ItemRecord
     {
         public int Count { get; set; }
-        public string ItemName { get; set; }  
+        public string ItemName { get; set; }
     }
 
     public class Specification

@@ -180,12 +180,6 @@
     <Compile Include="FrmSelectMorePlaceForStorages.Designer.cs">
       <DependentUpon>FrmSelectMorePlaceForStorages.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmTaskDetails.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmTaskDetails.Designer.cs">
-      <DependentUpon>FrmTaskDetails.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -238,9 +232,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSelectMorePlaceForStorages.resx">
       <DependentUpon>FrmSelectMorePlaceForStorages.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmTaskDetails.resx">
-      <DependentUpon>FrmTaskDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmWarehouseRecords.resx">
       <DependentUpon>FrmWarehouseRecords.cs</DependentUpon>

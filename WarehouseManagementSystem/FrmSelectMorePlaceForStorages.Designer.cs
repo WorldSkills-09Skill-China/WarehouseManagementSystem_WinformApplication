@@ -37,6 +37,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btnReduce = new System.Windows.Forms.Button();
             this.btnFinish = new System.Windows.Forms.Button();
+            this.btnChange = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItemsData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudItemCount)).BeginInit();
             this.SuspendLayout();
@@ -128,11 +129,21 @@
             this.btnFinish.UseVisualStyleBackColor = true;
             this.btnFinish.Click += new System.EventHandler(this.btnFinish_Click);
             // 
+            // btnChange
+            // 
+            this.btnChange.Location = new System.Drawing.Point(608, 71);
+            this.btnChange.Name = "btnChange";
+            this.btnChange.Size = new System.Drawing.Size(75, 23);
+            this.btnChange.TabIndex = 13;
+            this.btnChange.Text = "更改";
+            this.btnChange.UseVisualStyleBackColor = true;
+            // 
             // FrmSelectMorePlaceForStorages
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnChange);
             this.Controls.Add(this.btnFinish);
             this.Controls.Add(this.btnReduce);
             this.Controls.Add(this.label4);
@@ -163,5 +174,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnReduce;
         private System.Windows.Forms.Button btnFinish;
+        private System.Windows.Forms.Button btnChange;
     }
 }
