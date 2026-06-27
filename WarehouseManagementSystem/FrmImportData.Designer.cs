@@ -86,9 +86,10 @@
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(149, 426);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(486, 15);
+            this.label2.Size = new System.Drawing.Size(572, 15);
             this.label2.TabIndex = 25;
-            this.label2.Text = "提示：列头格式为（物品名称，物品类型，物品安全库存，是否是固定资产，物品数量）";
+            this.label2.Text = "提示：列头格式为（\"ItemName,ItemType,SafeCount,Count,IsFixedAsset,PlaceForStorageDetail,Un" +
+    "it\"）";
             // 
             // dgvItemData
             // 

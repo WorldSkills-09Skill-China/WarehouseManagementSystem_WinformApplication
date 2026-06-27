@@ -66,3 +66,4 @@ D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\bin\De
 D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\bin\Debug\System.Security.Cryptography.Xml.xml
 D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\Debug\WarehouseManagementSystem.FrmSelectMorePlaceForStorages.resources
+D:\仓库管理系统\WarehouseManagementSystem\WarehouseManagementSystem\obj\Debug\WarehouseManagementSystem.FrmEdtiItemSpecification.resources

@@ -44,6 +44,7 @@
             this.nudCount = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.gbFixedAssetEdit = new System.Windows.Forms.GroupBox();
+            this.btnEditSpecification = new System.Windows.Forms.Button();
             this.cbmUser = new WarehouseManagementSystem.Cbm();
             this.cbmPlaceforStorage = new WarehouseManagementSystem.Cbm();
             this.btnChangeUser = new System.Windows.Forms.Button();
@@ -204,6 +205,7 @@
             // 
             // gbFixedAssetEdit
             // 
+            this.gbFixedAssetEdit.Controls.Add(this.btnEditSpecification);
             this.gbFixedAssetEdit.Controls.Add(this.cbmUser);
             this.gbFixedAssetEdit.Controls.Add(this.cbmPlaceforStorage);
             this.gbFixedAssetEdit.Controls.Add(this.btnChangeUser);
@@ -220,6 +222,16 @@
             this.gbFixedAssetEdit.TabIndex = 29;
             this.gbFixedAssetEdit.TabStop = false;
             this.gbFixedAssetEdit.Text = "固定资产";
+            // 
+            // btnEditSpecification
+            // 
+            this.btnEditSpecification.Location = new System.Drawing.Point(686, 20);
+            this.btnEditSpecification.Name = "btnEditSpecification";
+            this.btnEditSpecification.Size = new System.Drawing.Size(75, 28);
+            this.btnEditSpecification.TabIndex = 38;
+            this.btnEditSpecification.Text = "编辑规格";
+            this.btnEditSpecification.UseVisualStyleBackColor = true;
+            this.btnEditSpecification.Click += new System.EventHandler(this.btnEditSpecification_Click);
             // 
             // cbmUser
             // 
@@ -386,5 +398,6 @@
         private Cbm cbmUser;
         private System.Windows.Forms.Label label7;
         private Tb tbUnit;
+        private System.Windows.Forms.Button btnEditSpecification;
     }
 }

@@ -115,8 +115,9 @@ namespace WarehouseManagementSystem
             else
             {
                 cbmBatch.DataSource = null;
+                batches.Result.Data.Bind(cbmBatch);
             }
-            string url = $@"http://localhost:5070//{info.Result.Data.ImageName}";
+            string url = $@"http:/192.168.20.145:7014/api/{info.Result.Data.ImageName}";
 
             if (info.Result.Data.ImageName != null)
             {
@@ -176,26 +177,25 @@ namespace WarehouseManagementSystem
         {
             cbIsUserExistingItems.Checked = false;
             cbIsUserExistingItems.Enabled = false;
-
-            if (cbIsUserExistingItems.Checked)
+            var batches = await cbmItem.V.GetItemBatches(cbmType.V);
+            if (cbIsUserExistingItems.Checked || cbmType.V == 2)
             {
-                var batches = await cbmItem.V.GetItemBatches(cbmType.V);
                 batches.Data.Insert(0, new CbmData
                 {
                     Id = -1,
                     Name = "",
                 });
-                batches.Data.Bind(cbmBatch);
+                batches.Data.ToList().Bind(cbmBatch);
             }
             else
             {
                 cbmBatch.DataSource = null;
+                batches.Data.ToList().Bind(cbmBatch);
             }
 
             if (cbmType.V == 2)
             {
                 var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1, -1);
-                places.Data.Insert(0, new CbmData { Id = -1, Name = "多个存放位置" });
                 places.Data.Bind(cbmPlaceForStorage);
 
                 if (_isFixedAsset)
@@ -217,7 +217,6 @@ namespace WarehouseManagementSystem
             if (cbmType.V == 2)
             {
                 var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1, -1);
-                places.Data.Insert(0, new CbmData { Id = -1, Name = "多个存放位置" });
                 places.Data.Bind(cbmPlaceForStorage);
             }
             if (cbmType.V == 1)
@@ -231,24 +230,30 @@ namespace WarehouseManagementSystem
         private async void cbIsUserExistingItems_CheckedChanged(object sender, EventArgs e)
         {
             var batches = await cbmItem.V.GetItemBatches(cbmType.V);
-            if (batches.Data.Count <= 0)
+            if (cbIsUserExistingItems.Checked)
             {
-                "仓库中没有该物品".Msg();
-                cbIsUserExistingItems.Checked = false;
-                return;
+                cbmBatch.DataSource = null;
+                batches.Data.ToList().Bind(cbmBatch);
             }
-            if (cbIsUserExistingItems.Checked || cbmType.V == 1)
+            else if (cbmType.V == 2)
             {
                 batches.Data.Insert(0, new CbmData
                 {
                     Id = -1,
                     Name = "",
                 });
-                batches.Data.Bind(cbmBatch);
+                batches.Data.ToList().Bind(cbmBatch);
             }
             else
             {
                 cbmBatch.DataSource = null;
+                batches.Data.ToList().Bind(cbmBatch);
+            }
+            if (batches.Data.Count <= 0)
+            {
+                "仓库中没有该物品".Msg();
+                cbIsUserExistingItems.Checked = false;
+                return;
             }
         }
     }

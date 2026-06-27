@@ -14,7 +14,7 @@ namespace WarehouseManagementSystem
 {
     static class Common
     {
-        public static string firstUrl = "http://localhost:5070/api/";
+        public static string firstUrl = "http://localhost:5070/api/"/*"http://192.168.20.145:7014/api/"*/;
         public static HttpClient client = new HttpClient();
         static public void GoFrm(this Form thisFrm, Form toFrm)
         {
@@ -179,6 +179,11 @@ namespace WarehouseManagementSystem
 
     public static class FixedAssetDataNetworkRequest
     {
+        public static async Task<ClassData<T>> EditItemSpecification<T>(SpecificationAsk specification)
+        {
+            return await "Items/editItemSpecification".Post<T>(specification);
+        }
+
         public static async Task<ClassData<int>> GetLastId()
         {
             return await "Items/showLargestFixedAsset".Get<int>();
@@ -188,10 +193,25 @@ namespace WarehouseManagementSystem
         {
             return await "Items/showFixedAsset".Post<T>(id);
         }
+
+        public static async Task<ClassData<T>> GetFixedAssetSepcification<T>(this string code)
+        {
+            return await $"Items/getItemSpecification?code={code}".Get<T>();
+        }
     }
 
     public static class ItemNetworkRequest
     {
+        public static async Task<ClassData<List<CbmData>>> GetTypeItems(this int typeId)
+        {
+            return await "Types/displayTypeItem".Post<List<CbmData>>(typeId);
+        }
+
+        public static async Task<ClassData<List<CbmData>>> GetItemType()
+        {
+            return await $"Types/showAllType".Get<List<CbmData>>();
+        }
+
         public static async Task<ClassData<T>> ReturnBatchItem<T>(int count, int batch, int itemId)
         {
             return await $"Items/returnBatchItem?count={count}&batch={batch}&id={itemId}".Get<T>();
@@ -258,6 +278,10 @@ namespace WarehouseManagementSystem
 
     public static class WarehouseRecordsNetworkRequest
     {
+        public static async Task<ClassData<T>> QueryRecord<T>(int itemId, int itemTypeId, bool isFinishRecords)
+        {
+            return await $"WarehouseRecords/quaryRecord?itemId={itemId}&itemTypeId={itemTypeId}&isFinishRecords={isFinishRecords}".Get<T>();
+        }
         public static async Task<ClassData<List<CbmData>>> GetItemBatches(this int itemId, int recordTypeId)
         {
             return await $"WarehouseRecords/itemBatches?itemId={itemId}&recordTypeId={recordTypeId}".Get<List<CbmData>>();
@@ -266,9 +290,9 @@ namespace WarehouseManagementSystem
         {
             return await "WarehouseRecords/showRecordDetail".Post<T>(id);
         }
-        public static async Task<ClassData<T>> GetRecordsAsync<T>()
+        public static async Task<ClassData<T>> GetRecordsCountAsync<T>()
         {
-            return await "WarehouseRecords/showTotalRecord".Get<T>();
+            return await "WarehouseRecords/showDeliveryAndStorageCount".Get<T>();
         }
         public static async Task<ClassData<T>> GetUnfinishedTasksAsync<T>()
         {

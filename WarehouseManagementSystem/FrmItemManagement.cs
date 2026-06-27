@@ -38,7 +38,7 @@ namespace WarehouseManagementSystem
                     {
                         try
                         {
-                            image = await client.GetByteArrayAsync("http://localhost:5070//" + a.ImageFileName);
+                            image = await client.GetByteArrayAsync("http://192.168.20.145:7014/api/" + a.ImageFileName);
                         }
                         catch
                         {

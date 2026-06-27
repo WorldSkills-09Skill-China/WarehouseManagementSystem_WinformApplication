@@ -175,11 +175,11 @@
             this.lblAbnormalItemCount.AutoSize = true;
             this.lblAbnormalItemCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAbnormalItemCount.ForeColor = System.Drawing.Color.Red;
-            this.lblAbnormalItemCount.Location = new System.Drawing.Point(46, 32);
+            this.lblAbnormalItemCount.Location = new System.Drawing.Point(70, 32);
             this.lblAbnormalItemCount.Name = "lblAbnormalItemCount";
-            this.lblAbnormalItemCount.Size = new System.Drawing.Size(92, 31);
+            this.lblAbnormalItemCount.Size = new System.Drawing.Size(30, 31);
             this.lblAbnormalItemCount.TabIndex = 1;
-            this.lblAbnormalItemCount.Text = "label8";
+            this.lblAbnormalItemCount.Text = "0";
             // 
             // label9
             // 

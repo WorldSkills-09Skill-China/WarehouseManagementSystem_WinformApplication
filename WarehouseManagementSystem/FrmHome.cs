@@ -27,15 +27,13 @@ namespace WarehouseManagementSystem
             dgvUnfinishedTaskData.Columns.Clear();
             dgvAbnormalItemData.Columns.Clear();
 
-            var allRecords = WarehouseRecordsNetworkRequest.GetRecordsAsync<List<Record>>();
+            var countData = WarehouseRecordsNetworkRequest.GetRecordsCountAsync<RecordCount>();
             var unfinishedTasks = WarehouseRecordsNetworkRequest.GetUnfinishedTasksAsync<List<Record>>();
             var abnormalItems = ItemNetworkRequest.GetAbnormalItemsAsync<List<Item>>();
 
-            await Task.WhenAll(allRecords, unfinishedTasks, abnormalItems);
-            lblStorageRecordCount.Text = allRecords.Result.Data.ToList()
-                .Where(a => a.Type == "入库" && a.RecordState == "已完成").ToList().Count().ToString();
-            lblStockOutRecordCount.Text = allRecords.Result.Data.ToList()
-                .Where(a => a.Type == "出库" && a.RecordState == "已完成").ToList().Count().ToString();
+            await Task.WhenAll(countData, unfinishedTasks, abnormalItems);
+            lblStorageRecordCount.Text = countData.Result.Data.Storage.ToString();
+            lblStockOutRecordCount.Text = countData.Result.Data.Delivery.ToString();
             lblUnfinishedTaskCount.Text = unfinishedTasks.Result.Data.Count.ToString();
             //lblAbnormalItemCount.Text = abnormalItems.Result.Data.Count.ToString();
 
@@ -113,6 +111,13 @@ namespace WarehouseManagementSystem
         public int? UserId { set; get; }
         public string UserName { set; get; }
         public int PlaceForStorageDetailId { set; get; }
-        public string PlaceForStorageDetailName { set; get;}
+        public string PlaceForStorageDetailName { set; get; }
+        public int Batch { set; get; }
+    }
+
+    public class RecordCount
+    {
+        public int Delivery { set; get; }
+        public int Storage { set; get; }
     }
 }

@@ -20,59 +20,54 @@ namespace WarehouseManagementSystem
 
         public async Task LoadInfo()
         {
-            var allRecords = await WarehouseRecordsNetworkRequest.GetRecordsAsync<List<Record>>();
-            allRecords.Data.Where(a =>
-            (a.UserId == cbmItemType.V || cbmItemType.V == -1) &&
-                (a.ItemId == cbmItem.V || cbmItem.V == -1) &&
-                (string.IsNullOrEmpty(tbSearch.V) || a.ItemName.Contains(tbSearch.V)) &&
-                (!cbOnlyLoadUnfinishedTask.Checked || a.RecordState == "未完成") &&
-                a.CreateTime.Date >= dtpFirstTime.Value.Date &&
-                a.CreateTime.Date <= dtpLastTime.Value.Date
-            ).ToList()
-            .OrderByDescending(a => a.RecordState == "待审核").ToList().Bind(dgvRecordsData);
-
-            dgvRecordsData.Hide("UserId");
-            dgvRecordsData.Hide("ItemId");
-            dgvRecordsData.Hide("PlaceForStorageDetailId");
-
-            var editColumn = new DataGridViewLinkColumn
+            var allRecords = await WarehouseRecordsNetworkRequest.QueryRecord<List<Record>>(cbmItem.V, cbmItemType.V, cbOnlyLoadUnfinishedTask.Checked);
+            if (allRecords.Data != null)
             {
-                Name = "Edit",
-            };
+                allRecords.Data.OrderByDescending(a => a.RecordState == "待审核").ToList().Bind(dgvRecordsData);
 
-            var deleteColumn = new DataGridViewLinkColumn
-            {
-                Name = "Delete",
-                Text = "Delete",
-                UseColumnTextForLinkValue = true,
-            };
+                dgvRecordsData.Hide("UserId");
+                dgvRecordsData.Hide("ItemId");
+                dgvRecordsData.Hide("PlaceForStorageDetailId");
 
-            var cancelColumn = new DataGridViewLinkColumn
-            {
-                Name = "Cancel",
-            };
-
-            var approvalRecord = new DataGridViewLinkColumn
-            {
-                Name = "Approval",
-            };
-
-            dgvRecordsData.Columns.Add(editColumn);
-            dgvRecordsData.Columns.Add(deleteColumn);
-            dgvRecordsData.Columns.Add(cancelColumn);
-            dgvRecordsData.Columns.Add(approvalRecord);
-
-            foreach (DataGridViewRow row in dgvRecordsData.Rows)
-            {
-                if (row.Cells["RecordState"].Value.ToString() == "待审核")
+                var editColumn = new DataGridViewLinkColumn
                 {
-                    row.DefaultCellStyle.ForeColor = Color.Green;
-                    row.Cells["Cancel"].Value = "Cancel";
-                    row.Cells["Approval"].Value = "Approval";
-                }
-                if (row.Cells["RecordState"].Value.ToString() == "未完成")
+                    Name = "Edit",
+                };
+
+                var deleteColumn = new DataGridViewLinkColumn
                 {
-                    row.Cells["Edit"].Value = "Edit";
+                    Name = "Delete",
+                    Text = "Delete",
+                    UseColumnTextForLinkValue = true,
+                };
+
+                var cancelColumn = new DataGridViewLinkColumn
+                {
+                    Name = "Cancel",
+                };
+
+                var approvalRecord = new DataGridViewLinkColumn
+                {
+                    Name = "Approval",
+                };
+
+                dgvRecordsData.Columns.Add(editColumn);
+                dgvRecordsData.Columns.Add(deleteColumn);
+                dgvRecordsData.Columns.Add(cancelColumn);
+                dgvRecordsData.Columns.Add(approvalRecord);
+
+                foreach (DataGridViewRow row in dgvRecordsData.Rows)
+                {
+                    if (row.Cells["RecordState"].Value.ToString() == "待审核")
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.Green;
+                        row.Cells["Cancel"].Value = "Cancel";
+                        row.Cells["Approval"].Value = "Approval";
+                    }
+                    if (row.Cells["RecordState"].Value.ToString() == "未完成")
+                    {
+                        row.Cells["Edit"].Value = "Edit";
+                    }
                 }
             }
         }
@@ -109,7 +104,7 @@ namespace WarehouseManagementSystem
 
         private async void FrmWarehouseRecords_Load(object sender, EventArgs e)
         {
-            var operatorsData = await UsersNetworkRequest.GetOperatorsAsync();
+            var operatorsData = await ItemNetworkRequest.GetItemType();
             operatorsData.Data.Insert(0, new CbmData { Name = "All", Id = -1 });
             operatorsData.Data.Bind(cbmItemType);
 
@@ -179,9 +174,15 @@ namespace WarehouseManagementSystem
             }
         }
 
-        private void cbmItemType_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cbmItemType_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            var info = await cbmItemType.V.GetTypeItems();
+            info.Data.Insert(0, new CbmData
+            {
+                Id = -1,
+                Name = "All"
+            });
+            info.Data.Bind(cbmItem);
         }
     }
 }

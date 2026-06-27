@@ -46,8 +46,8 @@ namespace WarehouseManagementSystem
                 int rowCount = worksheet.Dimension.Rows;
                 int columnCount = worksheet.Dimension.Columns;
 
-                var column = $"{worksheet.Cells[1, 1].Text},{worksheet.Cells[1, 2].Text},{worksheet.Cells[1, 3].Text},{worksheet.Cells[1, 4].Text},{worksheet.Cells[1, 5].Text},{worksheet.Cells[1, 6].Text}";
-                if (column != "ItemName,ItemType,SafeCount,Count,IsFixedAsset,PlaceForStorageDetail")
+                var column = $"{worksheet.Cells[1, 1].Text},{worksheet.Cells[1, 2].Text},{worksheet.Cells[1, 3].Text},{worksheet.Cells[1, 4].Text},{worksheet.Cells[1, 5].Text},{worksheet.Cells[1, 6].Text},{worksheet.Cells[1, 7].Text}";
+                if (column != "ItemName,ItemType,SafeCount,Count,IsFixedAsset,PlaceForStorageDetail,Unit")
                 {
                     "数据格式错误解析失败".Msg();
                     return;
@@ -65,7 +65,8 @@ namespace WarehouseManagementSystem
                             SafeCount = Convert.ToInt32(worksheet.Cells[row, 3].Text),
                             Count = Convert.ToInt32(worksheet.Cells[row, 4].Text),
                             IsFixedAsset = Convert.ToBoolean(worksheet.Cells[row, 5].Text),
-                            PlaceForStorageDetail = worksheet.Cells[row, 6].Text
+                            PlaceForStorageDetail = worksheet.Cells[row, 6].Text,
+                            Unit = worksheet.Cells[row, 7].Text,
                         });
                     }
                     items.AddRange(currentItems);
@@ -86,7 +87,7 @@ namespace WarehouseManagementSystem
             {
                 var itemsInfo = File.ReadAllText(fileName).Trim();
                 var itemsData = itemsInfo.Split('\n');
-                if (itemsData[0].TrimEnd('\r') != "ItemName,ItemType,SafeCount,Count,IsFixedAsset,PlaceForStorageDetail")
+                if (itemsData[0].TrimEnd('\r') != "ItemName,ItemType,SafeCount,Count,IsFixedAsset,PlaceForStorageDetail,Unit")
                 {
                     "数据格式错误解析失败".Msg();
                     return;
@@ -107,7 +108,7 @@ namespace WarehouseManagementSystem
                             Count = Convert.ToInt32(itemData[3]),
                             IsFixedAsset = Convert.ToBoolean(itemData[4]),
                             PlaceForStorageDetail = itemData[5],
-
+                            Unit = itemData[6],
                         });
                     }
                     items.AddRange(currentItems);
@@ -196,6 +197,7 @@ namespace WarehouseManagementSystem
         public int Count { get; set; }
         public bool IsFixedAsset { get; set; }
         public string PlaceForStorageDetail { set; get; }
+        public string Unit { get; set; }
     }
 
 }

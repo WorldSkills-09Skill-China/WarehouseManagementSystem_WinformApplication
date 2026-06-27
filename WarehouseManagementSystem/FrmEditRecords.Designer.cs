@@ -34,8 +34,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pbItem = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbmBatch = new WarehouseManagementSystem.Cbm();
             this.cbIsUserExistingItems = new System.Windows.Forms.CheckBox();
             this.dtpFinishedTime = new System.Windows.Forms.DateTimePicker();
+            this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.cbmType = new WarehouseManagementSystem.Cbm();
             this.cbmState = new WarehouseManagementSystem.Cbm();
@@ -55,8 +57,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.dtpEndTime = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
-            this.cbmBatch = new WarehouseManagementSystem.Cbm();
-            this.label11 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPlaceForStorage)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -148,6 +148,16 @@
             this.panel1.Size = new System.Drawing.Size(423, 398);
             this.panel1.TabIndex = 29;
             // 
+            // cbmBatch
+            // 
+            this.cbmBatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmBatch.FormattingEnabled = true;
+            this.cbmBatch.Location = new System.Drawing.Point(155, 103);
+            this.cbmBatch.Name = "cbmBatch";
+            this.cbmBatch.Size = new System.Drawing.Size(198, 21);
+            this.cbmBatch.TabIndex = 42;
+            this.cbmBatch.SelectedIndexChanged += new System.EventHandler(this.cbmBatch_SelectedIndexChanged);
+            // 
             // cbIsUserExistingItems
             // 
             this.cbIsUserExistingItems.AutoSize = true;
@@ -157,6 +167,7 @@
             this.cbIsUserExistingItems.TabIndex = 40;
             this.cbIsUserExistingItems.Text = "入库以有的物品";
             this.cbIsUserExistingItems.UseVisualStyleBackColor = true;
+            this.cbIsUserExistingItems.CheckedChanged += new System.EventHandler(this.cbIsUserExistingItems_CheckedChanged);
             // 
             // dtpFinishedTime
             // 
@@ -166,6 +177,16 @@
             this.dtpFinishedTime.Name = "dtpFinishedTime";
             this.dtpFinishedTime.Size = new System.Drawing.Size(198, 20);
             this.dtpFinishedTime.TabIndex = 39;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.label11.Location = new System.Drawing.Point(97, 105);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(50, 21);
+            this.label11.TabIndex = 41;
+            this.label11.Text = "批次：";
             // 
             // label10
             // 
@@ -185,6 +206,7 @@
             this.cbmType.Name = "cbmType";
             this.cbmType.Size = new System.Drawing.Size(198, 21);
             this.cbmType.TabIndex = 37;
+            this.cbmType.SelectedIndexChanged += new System.EventHandler(this.cbmType_SelectedIndexChanged);
             // 
             // cbmState
             // 
@@ -349,26 +371,6 @@
             this.label8.Size = new System.Drawing.Size(84, 21);
             this.label8.TabIndex = 9;
             this.label8.Text = "截止时间：";
-            // 
-            // cbmBatch
-            // 
-            this.cbmBatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmBatch.FormattingEnabled = true;
-            this.cbmBatch.Location = new System.Drawing.Point(155, 103);
-            this.cbmBatch.Name = "cbmBatch";
-            this.cbmBatch.Size = new System.Drawing.Size(198, 21);
-            this.cbmBatch.TabIndex = 42;
-            this.cbmBatch.SelectedIndexChanged += new System.EventHandler(this.cbmBatch_SelectedIndexChanged);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.label11.Location = new System.Drawing.Point(97, 105);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(50, 21);
-            this.label11.TabIndex = 41;
-            this.label11.Text = "批次：";
             // 
             // FrmEditRecords
             // 

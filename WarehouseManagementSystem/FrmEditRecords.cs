@@ -73,7 +73,7 @@ namespace WarehouseManagementSystem
         private async void cbmPlaceForStorage_SelectedIndexChanged(object sender, EventArgs e)
         {
             var info = await cbmPlaceForStorage.V.GetPlaceImageAsync<string>();
-            string url = $@"http://localhost:5070//{info.Data}";
+            string url = $@"http:/192.168.20.145:7014/api/{info.Data}";
 
             if (info.Data != null)
             {
@@ -100,10 +100,25 @@ namespace WarehouseManagementSystem
         {
             cbIsUserExistingItems.Checked = false;
             cbIsUserExistingItems.Enabled = false;
-            var info = await cbmItem.V.GetItemImageAsync<ItemInfoData>();
-            string url = $@"http://localhost:5070//{info.Data.ImageName}";
+            var info = cbmItem.V.GetItemImageAsync<ItemInfoData>();
+            var batches = cbmItem.V.GetItemBatches(cbmType.V);
+            await Task.WhenAll(info, batches);
+            if (cbIsUserExistingItems.Checked || cbmType.V == 1)
+            {
+                batches.Result.Data.Insert(0, new CbmData
+                {
+                    Id = -1,
+                    Name = "",
+                });
+                batches.Result.Data.Bind(cbmBatch);
+            }
+            else
+            {
+                cbmBatch.DataSource = null;
+            }
+            string url = $@"http:/192.168.20.145:7014/api/{info.Result.Data.ImageName}";
 
-            if (info.Data.ImageName != null)
+            if (info.Result.Data.ImageName != null)
             {
                 using (HttpClient client = new HttpClient())
                 {
@@ -124,7 +139,7 @@ namespace WarehouseManagementSystem
                 }
             }
 
-            _isFixedAsset = info.Data.IsFixedAsset;
+            _isFixedAsset = info.Result.Data.IsFixedAsset;
             if (cbmType.V == 2 && _isFixedAsset)
             {
                 cbIsUserExistingItems.Enabled = true;
@@ -172,9 +187,90 @@ namespace WarehouseManagementSystem
             }
         }
 
-        private void cbmBatch_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cbmBatch_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cbmType.V == 2)
+            {
+                var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1, -1);
+                places.Data.Insert(0, new CbmData { Id = -1, Name = "多个存放位置" });
+                places.Data.Bind(cbmPlaceForStorage);
+            }
+            if (cbmType.V == 1)
+            {
+                cbmPlaceForStorage.DataSource = null;
+                var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(cbmItem.V, cbmBatch.V);
+                places.Data.Bind(cbmPlaceForStorage);
+            }
+        }
 
+        private async void cbmType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbIsUserExistingItems.Checked = false;
+            cbIsUserExistingItems.Enabled = false;
+
+            if (cbIsUserExistingItems.Checked)
+            {
+                var batches = await cbmItem.V.GetItemBatches(cbmType.V);
+                batches.Data.Insert(0, new CbmData
+                {
+                    Id = -1,
+                    Name = "",
+                });
+                batches.Data.Bind(cbmBatch);
+            }
+            else
+            {
+                cbmBatch.DataSource = null;
+            }
+
+            if (cbmType.V == 2)
+            {
+                var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1, -1);
+                places.Data.Insert(0, new CbmData { Id = -1, Name = "多个存放位置" });
+                places.Data.Bind(cbmPlaceForStorage);
+
+                if (_isFixedAsset)
+                {
+                    cbIsUserExistingItems.Enabled = true;
+                }
+            }
+            if (cbmType.V == 1)
+            {
+                cbmPlaceForStorage.DataSource = null;
+
+                var places = await PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(cbmItem.V, cbmBatch.V);
+                places.Data.Bind(cbmPlaceForStorage);
+            }
+        }
+
+        private async void cbIsUserExistingItems_CheckedChanged(object sender, EventArgs e)
+        {
+            var batches = await cbmItem.V.GetItemBatches(cbmType.V);
+            if (cbIsUserExistingItems.Checked)
+            {
+                cbmBatch.DataSource = null;
+                batches.Data.ToList().Bind(cbmBatch);
+            }
+            else if (cbmType.V == 2)
+            {
+                batches.Data.Insert(0, new CbmData
+                {
+                    Id = -1,
+                    Name = "",
+                });
+                batches.Data.ToList().Bind(cbmBatch);
+            }
+            else
+            {
+                cbmBatch.DataSource = null;
+                batches.Data.ToList().Bind(cbmBatch);
+            }
+            if (batches.Data.Count <= 0)
+            {
+                "仓库中没有该物品".Msg();
+                cbIsUserExistingItems.Checked = false;
+                return;
+            }
         }
     }
 

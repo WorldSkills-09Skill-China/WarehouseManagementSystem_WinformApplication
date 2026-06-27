@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +22,7 @@ namespace WarehouseManagementSystem
         List<FixedAssetData> deleteFixedAssetList = new List<FixedAssetData>();
         Dictionary<string, string> placeForStorageDetailIdChangedFixedAsset = new Dictionary<string, string>();
         Dictionary<string, string> userIdChangedFixedAsset = new Dictionary<string, string>();
+        Dictionary<string, string> newFixedAssetListSpecification = new Dictionary<string, string>();
 
         int _id;
         public FrmEditItem(int id)
@@ -82,7 +84,7 @@ namespace WarehouseManagementSystem
                 SafeCount = nudSafeStock.Value._2Int(),
                 ImageFile = string.IsNullOrEmpty(tbImagePath.V) ? null : Convert.ToBase64String(File.ReadAllBytes(tbImagePath.V)),
                 ImageFileName = Path.GetFileName(tbImagePath.V),
-                IsFixedAsset = cbIsFixedAsset.Checked,
+                IsFixedAsset = _isFixedAsset,
                 AddFixedAssets = addFixedAssetList,
                 DeleteFixedAssets = deleteFixedAssetList,
                 PlaceForStorageDetailIdChangedFixedAsset = placeForStorageDetailIdChangedFixedAsset,
@@ -108,7 +110,7 @@ namespace WarehouseManagementSystem
 
         private async void FrmEditItem_Load(object sender, EventArgs e)
         {
-            btnAddFixedAsset.Enabled = false;
+            gbFixedAssetEdit.Enabled = false;
             var types = await TypesAndStateNetworkRequest.GetItemTypesAsync();
             types.Data.ToList().Bind(cbmType);
             var placeForStorages = PlaceForStorageDetailsNetworkRequest.GetPlacesAsync(-1, -1);
@@ -131,22 +133,30 @@ namespace WarehouseManagementSystem
                 }
 
                 var item = info.Result.Data;
-                string url = $@"http://localhost:5070//{item.ImageFileName}";
+                string url = $@"http:/192.168.20.145:7014/api/{item.ImageFileName}";
 
                 if (item.ImageFileName != null)
                 {
                     using (HttpClient client = new HttpClient())
                     {
-                        var bytes = await client.GetByteArrayAsync(url);
-
-                        using (var ms = new MemoryStream(bytes))
+                        try
                         {
-                            pbItemImage.Image = Image.FromStream(ms);
-                            pbItemImage.SizeMode = PictureBoxSizeMode.Zoom;
+                            var bytes = await client.GetByteArrayAsync(url);
+
+                            using (var ms = new MemoryStream(bytes))
+                            {
+                                pbItemImage.Image = Image.FromStream(ms);
+                                pbItemImage.SizeMode = PictureBoxSizeMode.Zoom;
+                            }
+                        }
+                        catch
+                        {
+                            pbItemImage.ImageLocation = null;
                         }
                     }
                 }
 
+                tbUnit.Text = item.Unit;
                 tbItemName.Text = item.ItemName;
                 cbmType.SelectedValue = item.ItemTypeId;
                 nudSafeStock.Value = item.SafeCount;
@@ -172,6 +182,7 @@ namespace WarehouseManagementSystem
                 Item = a.ItemName,
                 Code = a.Code,
                 Batch = a.Batch,
+                Specification = newFixedAssetListSpecification.ContainsKey(a.Code) ? newFixedAssetListSpecification[a.Code].Split('|')[1] : a.Specification,
             }).ToList().Bind(dgvFixedAsset);
             var deleteColumn = new DataGridViewLinkColumn
             {
@@ -225,11 +236,11 @@ namespace WarehouseManagementSystem
             }
             if (cbIsFixedAsset.Checked)
             {
-                btnAddFixedAsset.Enabled = true;
+                gbFixedAssetEdit.Enabled = true;
             }
             else
             {
-                btnAddFixedAsset.Enabled = false;
+                gbFixedAssetEdit.Enabled = false;
             }
         }
 
@@ -311,6 +322,31 @@ namespace WarehouseManagementSystem
             }
             LoadInfor();
         }
+
+        private void btnEditSpecification_Click(object sender, EventArgs e)
+        {
+            if (dgvFixedAsset.SelectedRows.Count <= 0)
+            {
+                "请选择要更改的物品".Msg();
+                return;
+            }
+            var codeList = new List<string>();
+            foreach (DataGridViewRow row in dgvFixedAsset.SelectedRows)
+            {
+                codeList.Add(row.Cells["Code"].Value.ToString());
+            }
+            var frm = new FrmEdtiItemSpecification(codeList);
+            frm.ShowDialog();
+            foreach (var item in frm.specificationAccept.NewFixedAssets)
+            {
+                newFixedAssetListSpecification[item] = frm.specificationAccept.SpecificationId + "|" + JsonConvert.SerializeObject(frm.SpecificationList);
+            };
+            foreach (var fixedAsset in addFixedAssetList.Where(a => newFixedAssetListSpecification.ContainsKey(a.Code)))
+            {
+                fixedAsset.SpecificationId = Convert.ToInt32(newFixedAssetListSpecification[fixedAsset.Code].Split('|')[0]);
+            }
+            LoadInfor();
+        }
     }
 
     public class FixedAssetData
@@ -323,6 +359,8 @@ namespace WarehouseManagementSystem
         public int ItemId { get; set; }
         public string PlaceForStorageDetail { get; set; }
         public int? Batch { get; set; }
+        public string Specification { get; set; }
+        public int SpecificationId { get; set; }
     }
 
 
@@ -350,5 +388,6 @@ namespace WarehouseManagementSystem
         public int SafeCount { get; set; }
         public string ImageFileName { get; set; }
         public bool IsFixedAssetpublic { get; set; }
+        public string Unit { get; set; }
     }
 }
